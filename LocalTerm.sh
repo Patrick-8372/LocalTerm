@@ -22,13 +22,20 @@ fi
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share/applications"
 
-# Kopiere DIESE Datei selbst als ausführbares Programm in den System-Pfad
 TARGET_BIN="$HOME/.local/bin/LocalTerm-engine"
-cp "$0" "$TARGET_BIN"
+
+# PRÜFUNG: Wird das Skript direkt über eine Pipeline (curl | bash) ausgeführt?
+if [ "$0" = "bash" ] || [ "$0" = "-bash" ]; then
+    # Wenn es gestreamt wird, laden wir es direkt mit curl an den Zielort herunter
+    curl -sL https://raw.githubusercontent.com/Patrick-8372/LocalTerm/refs/heads/main/LocalTerm.sh -o "$TARGET_BIN"
+else
+    # Wenn es lokal als Datei ausgeführt wird, kopieren wir es ganz normal
+    cp "$0" "$TARGET_BIN"
+fi
+
 chmod +x "$TARGET_BIN"
 
 # Erstelle die offizielle Desktop-Anwendungsdatei (XDG-Standard)
-# Dadurch taucht die App sofort in der App-Suche (Dash / Startmenü) auf!
 cat <<EOF > "$HOME/.local/share/applications/LocalTerm.desktop"
 [Desktop Entry]
 Name=LocalTerm
@@ -48,7 +55,7 @@ $TARGET_BIN --run-gui
 EOF
 chmod +x "$HOME/.local/share/applications/launch-LocalTerm.sh"
 
-# Aktualisiere die Desktop-Datenbank des Systems, damit die Suche das Programm sofort indiziert
+# Aktualisiere die Desktop-Datenbank des Systems
 if command -v update-desktop-database &> /dev/null; then
     update-desktop-database "$HOME/.local/share/applications"
 fi
