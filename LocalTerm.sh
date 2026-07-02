@@ -36,6 +36,7 @@ fi
 chmod +x "$TARGET_BIN"
 
 # Erstelle die offizielle Desktop-Anwendungsdatei (XDG-Standard)
+# Dadurch taucht die App sofort in der App-Suche (Dash / Startmenü) auf!
 cat <<EOF > "$HOME/.local/share/applications/LocalTerm.desktop"
 [Desktop Entry]
 Name=LocalTerm
@@ -55,7 +56,7 @@ $TARGET_BIN --run-gui
 EOF
 chmod +x "$HOME/.local/share/applications/launch-LocalTerm.sh"
 
-# Aktualisiere die Desktop-Datenbank des Systems
+# Aktualisiere die Desktop-Datenbank des Systems, damit die Suche das Programm sofort indiziert
 if command -v update-desktop-database &> /dev/null; then
     update-desktop-database "$HOME/.local/share/applications"
 fi
