@@ -4,3 +4,9 @@ Sollte die serielle Nutzung zu Problemen (z. B. "Permission Denied") führen, fe
 
 ```bash
 sudo usermod -aG dialout $USER
+```
+## Installation
+
+```bash
+curl -sL [https://raw.githubusercontent.com/Patrick-8372/LocalTerm/refs/heads/main/LocalTerm.sh](https://raw.githubusercontent.com/Patrick-8372/LocalTerm/refs/heads/main/LocalTerm.sh) | bash
+```
